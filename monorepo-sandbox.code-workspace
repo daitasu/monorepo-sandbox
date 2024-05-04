@@ -1,0 +1,24 @@
+{
+	"folders": [
+    {
+      "path": "apps/frontend"
+    },
+    {
+        "path": "apps/bff"
+    },
+    {
+        "path": "backends/golang"
+    },
+    {
+        "path": "packages/shared"
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+  },
+  "extensions": {
+    "recommendations": [
+        "esbenp.prettier-vscode",
+    ]
+  }
+}
