@@ -1,21 +1,28 @@
-.PHONY: all services stop
+.PHONY: install dev stop log_frontend log_bff
 
-all: services
+# 依存関係のインストール
+install:
+	@echo "[INFO] Installing dependencies for Frontend..."
+	@cd apps/frontend && pnpm install
+	@echo "[INFO] Installing dependencies for BFF..."
+	@cd apps/bff && pnpm install
 
-services:
-	@echo "Starting all services..."
-	@cd services/backend-go && go run main.go &> ../../logs/backend-go.log &
-	@cd apps/frontend && pnpm dev &> ../../logs/frontend.log &
-	@cd apps/bff && pnpm run start:dev &> ../../logs/bff.log &
-	@echo "All services started."
+# 開発環境の立ち上げ
+dev:
+	@echo "[INFO] Starting Frontend and BFF services..."
+	@cd apps/frontend && docker-compose up -d
+	@cd apps/bff && docker-compose up -d
 
+# コンテナの停止
 stop:
-	@echo "Stopping all services..."
-	@-pkill -P $$!
-	@echo "All services stopped."
+	@echo "[INFO] Stopping Frontend and BFF services..."
+	@cd apps/frontend && docker-compose down
+	@cd apps/bff && docker-compose down
 
-logs:
-	@echo "Tailing logs..."
-	@tail -f logs/backend-go.log &
-	@tail -f logs/frontend.log &
-	@tail -f logs/bff.log &
+# フロントエンドのlog
+log_frontend:
+	@cd apps/frontend && docker-compose logs -f monorepo_sandbox_frontend
+
+# バックエンドフォアフロントエンドのlog
+log_bff:
+	@cd apps/bff && docker-compose logs -f monorepo_sandbox_bff

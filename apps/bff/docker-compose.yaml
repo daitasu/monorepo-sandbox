@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  monorepo_sandbox_bff:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: bff_container
+    ports:
+      - "3031:3031"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+volumes:
+  node_modules:
+
